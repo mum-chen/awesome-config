@@ -17,6 +17,7 @@ require("awful.hotkeys_popup.keys")
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
+awful.util.spawn("compton -c -C -t-4 -l-4 -r4 -o.75 -f -D7 -I.07 -O.07 -b")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
