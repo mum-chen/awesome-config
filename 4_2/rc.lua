@@ -488,14 +488,9 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     opacity = 0.75,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-     }, {
-       rule = { class = "terminator" },
-       properties = { opacity = 0.75 }
      },
     },
-
     -- Floating clients.
     { rule_any = {
         instance = {
