@@ -59,8 +59,12 @@ self_cfg.sock5   = "ss-qt5"
 self_cfg.note    = "WizNote"
 self_cfg.browser = "chromium-browser"
 self_cfg.music   = "netease-cloud-music"
+self_cfg.filesystem = "nautilus"
+self_cfg.screenshot = "shutter"
 self_cfg.app_menu= {
-   { "browser", self_cfg.browser },
+   { "browser",     self_cfg.browser },
+   { "filesystem",  self_cfg.filesystem},
+   { "screenshot",  self_cfg.screenshot},
    -- { "note",  self_cfg.note },
    -- { "music", self_cfg.music },
    -- { "proxy", self_cfg.sock5 },
