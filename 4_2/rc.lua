@@ -287,6 +287,11 @@ globalkeys = gears.table.join(
                     awful.util.spawn("amixer set Master 5%-")
                 end),
 
+    awful.key({ modkey,           }, "a",
+                function ()
+                    awful.util.spawn("amixer -D pulse set Master 1+ toggle")
+                end),
+
     awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
