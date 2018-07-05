@@ -14,6 +14,16 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+local vicious = require("vicious")
+local batwidget = wibox.widget.textbox()
+vicious.register(batwidget, vicious.widgets.bat, 'Batt: $2 / ', 61, 'BAT0')
+
+local cpuwidget = wibox.widget.textbox()
+vicious.register(cpuwidget, vicious.widgets.cpu, 'CPU: $1% / ')
+
+local memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem, 'Mem: $1% ($2MB/$3MB) / ', 13)
+
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
@@ -230,6 +240,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
+            batwidget,
+            cpuwidget,
             mytextclock,
             s.mylayoutbox,
         },
