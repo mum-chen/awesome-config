@@ -1,4 +1,4 @@
-SRC="$$(pwd)/4_2"
+SRC="$(pwd)/4_2"
 DST=${HOME}/.config/awesome
 if test -L ${DST} || test -f ${DST}; then
 	echo "Install Fail: ${DST} already existed"
