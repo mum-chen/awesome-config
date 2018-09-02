@@ -19,6 +19,9 @@ local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 awful.util.spawn("compton -c -C -t-4 -l-4 -r4 -o.75 -f -D7 -I.07 -O.07 -b")
 
+local KeyBindGroup= require("key_bind")
+local SelfConfig = require("self_config")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -52,23 +55,6 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
-
--- set local cfg
-self_cfg = {}
-self_cfg.sock5   = "ss-qt5"
-self_cfg.note    = "WizNote"
-self_cfg.browser = "chromium-browser"
-self_cfg.music   = "netease-cloud-music"
-self_cfg.filesystem = "nautilus"
-self_cfg.screenshot = "shutter"
-self_cfg.app_menu= {
-   { "browser",     self_cfg.browser },
-   { "filesystem",  self_cfg.filesystem},
-   { "screenshot",  self_cfg.screenshot},
-   -- { "note",  self_cfg.note },
-   -- { "music", self_cfg.music },
-   -- { "proxy", self_cfg.sock5 },
-}
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -123,7 +109,7 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end}
 }
 
-mymainmenu = awful.menu({ items = { { "app", self_cfg.app_menu, beautiful.awesome_icon },
+mymainmenu = awful.menu({ items = { { "app", SelfConfig:app_menu(), beautiful.awesome_icon },
                                     { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "Debian", debian.menu.Debian_menu.Debian },
                                     { "open terminal", terminal }
@@ -208,11 +194,8 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    work_space = {
-        "工作区1", "工作区2", "工作区3",
-        "浏览器区4","浏览器区5","笔记区6",
-        "娱乐区7", "保留区域8","临时区域9"}
-    awful.tag(work_space, s, awful.layout.layouts[1])
+    work_space = SelfConfig:work_space()
+    awful.tag(work_space, s, awful.layout.layouts[2])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -272,25 +255,6 @@ globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
-
-    awful.key({ modkey,           }, "\\",      awful.tag.history.restart),
-    awful.key({ modkey,           }, ",",      awful.tag.viewprev       ),
-    awful.key({ modkey,           }, ".",      awful.tag.viewnext       ),
-
-    awful.key({ modkey,           }, "q",
-                function ()
-                    awful.util.spawn("amixer set Master 5%+")
-                end),
-
-    awful.key({ modkey,           }, "e",
-                function ()
-                    awful.util.spawn("amixer set Master 5%-")
-                end),
-
-    awful.key({ modkey,           }, "a",
-                function ()
-                    awful.util.spawn("amixer -D pulse set Master 1+ toggle")
-                end),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -482,6 +446,8 @@ clientbuttons = gears.table.join(
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
 -- Set keys
+keybind_group = KeyBindGroup(modkey)
+globalkeys = gears.table.join(globalkeys, keybind_group:all_keybinds())
 root.keys(globalkeys)
 -- }}}
 
