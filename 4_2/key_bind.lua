@@ -76,7 +76,7 @@ function TagKeyBind:__init__(modekey)
 		Key(self:mod(), ".", awful.tag.viewnext),
 		Key(self:mod("Shift"),   "r", Helper.Tag.rename),
 		Key(self:mod(),          "a", Helper.Tag.add),
-		Key(self:mod("Shift"),   "a", Helper.Tag.delete),
+		Key(self:mod(),          "d", Helper.Tag.delete),
 		Key(self:mod("Control"), "a", Helper.Tag.move_to_new),
 		Key(self:mod("Shift"),   "\\", Helper.Tag.swap),
 	}
