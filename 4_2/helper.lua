@@ -94,10 +94,23 @@ function TagHelper.swap()
 	}
 end
 
-function TagHelper.add()
-	local t = awful.tag.add("NewTag", {screan = awful.screen.focused()})
+
+function TagHelper._add(name)
+	local t = awful.tag.add(name, {screan = awful.screen.focused()})
 	TagHelper.mark(t)
 	t:view_only()
+end
+
+function TagHelper.add()
+	TagHelper._add("NewTag")
+end
+
+function TagHelper.add_with_name()
+	awful.prompt.run {
+		prompt = "New tag name: ",
+		textbox = awful.screen.focused().mypromptbox.widget,
+		exe_callback = TagHelper._add
+	}
 end
 
 function TagHelper.delete()
