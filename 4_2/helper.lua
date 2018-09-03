@@ -109,7 +109,10 @@ function TagHelper.add_with_name()
 	awful.prompt.run {
 		prompt = "New tag name: ",
 		textbox = awful.screen.focused().mypromptbox.widget,
-		exe_callback = TagHelper._add
+		exe_callback = function(name)
+			if not name or #name == 0 then return end
+			TagHelper._add(name)
+		end
 	}
 end
 
