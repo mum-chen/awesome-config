@@ -20,12 +20,12 @@ end
 
 function Config:app_menu()
 	return {
-	   { "browser",     self.browser },
-	   { "filesystem",  self.filesystem},
-	   { "screenshot",  self.screenshot},
-	   { "music", self.music },
-	   -- { "note",  self.note },
-	   -- { "proxy", self.sock5 },
+	   {"browser",     self.browser },
+	   {"filesystem",  self.filesystem},
+	   {"screenshot",  self.screenshot},
+	   {"music", self.music},
+	   -- {"note",  self.note},
+	   -- {"proxy", self.sock5},
 	}
 end
 
