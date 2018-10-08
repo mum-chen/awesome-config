@@ -50,51 +50,6 @@ function TagHelper.rename()
 	}
 end
 
-function TagHelper._swap(cmd)
-	if not cmd or #cmd == 0 then return end
-
-	local x, y = cmd:match("^%s*(%d+)%s*,%s*(%d+)")
-	x, y = tonumber(x), tonumber(y)
-	if not (x and y) or (x == y) then
-		local t = ("got %s"):format(cmd)
-		naughty.notify({
-			title = "Error Command!",
-			text = t,
-			timeout = 3
-		})
-		return
-	end
-
-	local tags = awful.screen.focused().tags
-	tag_x, tag_y = tags[x], tags[y]
-	if not (tag_x and  tag_y) then
-		local fmt = ("idx:%d %s")
-		local info = ("%s\t%s"):format(
-			fmt:format(x, tag_x and "found" or "not found"),
-			fmt:format(y, tag_y and "found" or "not found")
-		)
-		naughty.notify({
-			title = "Error Command!",
-			text = info,
-			timeout = 3
-		})
-		return
-	end
-
-	awful.tag.swap(tag_x, tag_y)
-	TagHelper.mark(tag_x)
-	TagHelper.mark(tag_y)
-end
-
-function TagHelper.swap()
-	awful.prompt.run {
-		prompt = "Replace two tags (x, idx): ",
-		textbox = awful.screen.focused().mypromptbox.widget,
-		exe_callback = TagHelper._swap
-	}
-end
-
-
 function TagHelper._add(name)
 	local t = awful.tag.add(name, {screan = awful.screen.focused()})
 	TagHelper.mark(t)
@@ -141,6 +96,72 @@ function TagHelper.move_to_new()
 	TagHelper.mark(t)
 	c:tags({t})
 	t:view_only()
+end
+
+function TagHelper.move(source, target)
+	local tag_source
+	if source then
+		local tags = awful.screen.focused().tags
+		tag_source = tags[source]
+	else
+		tag_source = awful.screen.focused().selected_tag
+	end
+	awful.tag.move(target, tag_source)
+	TagHelper.mark_all()
+end
+
+function TagHelper.swap(x, y)
+	local tags = awful.screen.focused().tags
+	tag_x, tag_y = tags[x], tags[y]
+	if not tag_x then
+		tag_x = awful.screen.focused().selected_tag
+	end
+	if not (tag_x and  tag_y) then
+		local fmt = ("idx:%d %s")
+		local info = ("%s\t%s"):format(
+			fmt:format(x, tag_x and "found" or "not found"),
+			fmt:format(y, tag_y and "found" or "not found")
+		)
+		naughty.notify({
+			title = "Error Command!",
+			text = info,
+			timeout = 3
+		})
+		return
+	end
+
+	awful.tag.swap(tag_x, tag_y)
+	TagHelper.mark(tag_x)
+	TagHelper.mark(tag_y)
+end
+
+function TagHelper._parse_cmd(cmd)
+	local x, op, y = cmd:match("^%s*(%d*)%s*([<%->]+)%s*(%d+)")
+	local f = ({
+		["->"]  = TagHelper.move,
+		["<>"]  = TagHelper.swap,
+		["<->"] = TagHelper.swap,
+	})[op]
+
+	x, y = tonumber(x), tonumber(y)
+	if not (y and f) then
+		local t = ("got %s"):format(cmd)
+		naughty.notify({
+			title = "Error Command!",
+			text = t,
+			timeout = 3
+		})
+		return
+	end
+	f(x, y)
+end
+
+function TagHelper.cmd()
+	awful.prompt.run {
+		prompt = "cmd: ",
+		textbox = awful.screen.focused().mypromptbox.widget,
+		exe_callback = TagHelper._parse_cmd
+	}
 end
 
 return {
