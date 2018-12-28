@@ -80,6 +80,7 @@ function TagKeyBind:__init__(modekey)
 		Key(self:mod(),          "d", Helper.Tag.delete),
 		Key(self:mod("Control"), "a", Helper.Tag.move_to_new),
 		Key(self:mod("Shift"),   "\\", Helper.Tag.cmd),
+		Key(self:mod(),          "/", Helper.Tag.search),
 	}
 end
 

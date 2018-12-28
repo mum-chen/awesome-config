@@ -164,6 +164,52 @@ function TagHelper.cmd()
 	}
 end
 
+function TagHelper._search(rep, case_sensitive)
+	local tags = awful.screen.focused().tags
+	local matched_tag = nil
+	local msg = nil
+
+	local transform = function(s)
+		return case_sensitive and s or s:lower()
+	end
+
+	local rep = transform(rep)
+
+	for i, tag in ipairs(tags) do
+		local tag_name = transform(tag.name)
+		if tag_name:match(rep) then
+			matched_tag = tag
+			break
+		end
+	end
+
+	if matched_tag then
+		matched_tag:view_only()
+		msg = matched_tag.name
+	else
+		msg = "not found tag"
+	end
+
+	return matched_tag, msg
+end
+
+function TagHelper.search()
+	awful.prompt.run {
+		prompt = "search: ",
+		textbox = awful.screen.focused().mypromptbox.widget,
+		exe_callback = function(rep)
+			local res, msg = TagHelper._search(rep, false)
+			if not res then
+				naughty.notify({
+					title = "Not found tag!",
+					text = rep,
+					timeout = 1
+				})
+			end
+		end
+	}
+end
+
 return {
 	Tag = TagHelper,
 	Amixer = AmixerHelper
