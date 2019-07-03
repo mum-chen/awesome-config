@@ -37,6 +37,10 @@ end
 function TagHelper.rename()
 	awful.prompt.run {
 		prompt = "New tag name: ",
+		text = (function()
+			local t = awful.screen.focused().selected_tag
+			return t.name:match("([^#]*)")
+		end)(),
 		textbox = awful.screen.focused().mypromptbox.widget,
 		exe_callback = function(new_name)
 			if not new_name or #new_name == 0 then return end
