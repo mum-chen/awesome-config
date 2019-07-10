@@ -214,7 +214,19 @@ function TagHelper.search()
 	}
 end
 
+local Tomato = require("tomato")
+local Pomodoro = {}
+Pomodoro.tomato = Tomato()
+function Pomodoro.show()
+	Pomodoro.tomato:show()
+end
+
+function Pomodoro.toggle()
+	Pomodoro.tomato:toggle()
+end
+
 return {
 	Tag = TagHelper,
-	Amixer = AmixerHelper
+	Amixer = AmixerHelper,
+	Pomodoro = Pomodoro,
 }

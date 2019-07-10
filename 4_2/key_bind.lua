@@ -84,6 +84,15 @@ function TagKeyBind:__init__(modekey)
 	}
 end
 
+local PomodoroBind = Class(KeyBind)
+function PomodoroBind:__init__(modekey)
+	PomodoroBind:super(self, modekey)
+	self._keys = {
+		Key(self:mod("Shift"), "t", Helper.Pomodoro.toggle),
+	}
+end
+
 KeyBindGroup.register("sound", AmixerKeyBind)
 KeyBindGroup.register("tag", TagKeyBind)
+KeyBindGroup.register("pomodoro", PomodoroBind)
 return KeyBindGroup

@@ -24,6 +24,7 @@ function Config:app_menu()
 		{"filesystem",  self.filesystem},
 		{"screenshot",  self.screenshot},
 		{"music", self.music},
+		{"tomato", Helper.Pomodoro.show},
 		-- {"note",  self.note},
 		-- {"proxy", self.sock5},
 	}
