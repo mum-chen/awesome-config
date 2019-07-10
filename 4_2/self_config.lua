@@ -12,20 +12,20 @@ function Config:__init__()
 	self.screenshot = "shutter"
 
 	self._work_space = {
-		"Work", "Work", "Work",
-		"Browser", "Browser", "Note",
-		"Amuse", "Reserve", "Temp",
+		"Work", "Work",
+		"Browser", "Note",
+		"Amuse", "Temp",
 	}
 end
 
 function Config:app_menu()
 	return {
-	   {"browser",     self.browser },
-	   {"filesystem",  self.filesystem},
-	   {"screenshot",  self.screenshot},
-	   {"music", self.music},
-	   -- {"note",  self.note},
-	   -- {"proxy", self.sock5},
+		{"browser",     self.browser },
+		{"filesystem",  self.filesystem},
+		{"screenshot",  self.screenshot},
+		{"music", self.music},
+		-- {"note",  self.note},
+		-- {"proxy", self.sock5},
 	}
 end
 

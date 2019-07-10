@@ -82,10 +82,10 @@ awful.layout.layouts = {
     awful.layout.suit.tile.top,
     awful.layout.suit.fair,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral,
     awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
@@ -205,7 +205,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
     work_space = SelfConfig:work_space()
-    awful.tag(work_space, s, awful.layout.layouts[2])
+    awful.tag(work_space, s, awful.layout.layouts[0])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
