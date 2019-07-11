@@ -416,9 +416,10 @@ end
 
 local TomatoNotify = Class()
 
-function TomatoNotify:__init__()
+function TomatoNotify:__init__(panel_size)
 	self._is_notified = false
 	self._seed = nil
+	self._panel_size = panel_size
 end
 
 function TomatoNotify:update(time)
@@ -443,12 +444,12 @@ end
 function TomatoNotify:notify()
 	naughty.notify({
 		title = "I'm a tomato",
-		text = "\n\nREST PLEASE!!!",
+		text = "REST!!!",
 		timeout = 0,
 		hover_timeout = 1,
 		position = "top_right",
-		width = 150,
-		height = 100,
+		width = self._panel_size * 0.75,
+		height = self._panel_size * 0.5,
 		fg = "black",
 		bg = "red",
 		shape = (function(cr, w, h)
@@ -457,7 +458,7 @@ function TomatoNotify:notify()
 		end),
 		screen = awful.screen.focused(),
 		border_width = 3,
-		margin       = 15,
+		margin       = 20,
 	})
 end
 
@@ -475,7 +476,7 @@ function Tomato:__init__()
 	self._time_panel = TomatoPanel(self.PANEL_SIZE)
 	self._time_panel:connect_timer(timer)
 
-	self._notify = TomatoNotify()
+	self._notify = TomatoNotify(self.PANEL_SIZE)
 	self._notify:connect_timer(timer)
 
 	timer:broadcast()
